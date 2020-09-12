@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const listItemRouter = require("./routes/list-items")
+
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 app.use('/api', listItemRouter)
 
 app.get('/', (req, res) => {
