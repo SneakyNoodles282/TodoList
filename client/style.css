@@ -1,0 +1,18 @@
+body {
+  padding: 10px;
+}
+
+.item.ui.todo-item {
+  display: flex;
+  align-items: center;
+}
+
+.two.wide.column.delete-button-wrapper {
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
