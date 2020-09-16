@@ -94,15 +94,17 @@ function renderList() {
 }
 renderList()
 
-function saveList() {
-  localStorage.setItem('savedList', JSON.stringify(classTodos));
+async function saveList() {
 }
 
-function clearList(){
+async function clearList(){
+  
+  await axios.delete('/api/list-items')
+  
   classTodos = []
   renderList()
-  saveList()
 }
+
 
 function inputVal(){
   if (input.value === "") {
