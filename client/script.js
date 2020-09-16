@@ -3,7 +3,7 @@ const addButton = document.querySelector("#addButton")
 const checkList = document.querySelector("#checkList")
 const clear = document.querySelector("#clear")
 
-
+console.log(axios)
 
 class Todo {
   constructor(obj) {
@@ -17,7 +17,9 @@ let classTodos = []
 
 const quick = localStorage.getItem('savedList')
 let transfer = JSON.parse(quick)
-
+if(!transfer) {
+  transfer = []
+}
 for (const item of transfer) {
   const newItem = new Todo(item)
   classTodos.push(newItem)
