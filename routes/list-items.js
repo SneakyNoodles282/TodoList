@@ -3,18 +3,18 @@ const router = express.Router();
 let todos = [
     {
       "text": "hi",
-      "id": "2.378",
-      "checked": "false"
+      "id": 2.378,
+      "checked": false
     },
     {
       "text": "hi",
-      "id": "2.3786333765439",
-      "checked": "false"
+      "id": 2.3786333765439,
+      "checked": false
     },
     {
       "text": "hi",
-      "id": "2.3786333",
-      "checked": "false"
+      "id": 2.3786333,
+      "checked": false
     }
 
   ];

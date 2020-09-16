@@ -3,7 +3,8 @@ const addButton = document.querySelector("#addButton")
 const checkList = document.querySelector("#checkList")
 const clear = document.querySelector("#clear")
 
-console.log(axios)
+let transfer = []
+let classTodos = []
 
 class Todo {
   constructor(obj) {
@@ -13,17 +14,23 @@ class Todo {
   }
 }
 
-let classTodos = []
+console.log(axios)
+axios.get('/api/list-items')
+  .then(function (response) {
+    // handle success
+    transfer = response.data
 
-const quick = localStorage.getItem('savedList')
-let transfer = JSON.parse(quick)
-if(!transfer) {
-  transfer = []
-}
-for (const item of transfer) {
-  const newItem = new Todo(item)
-  classTodos.push(newItem)
-}
+    if(!transfer) {
+      transfer = []
+    }
+    for (const item of transfer) {
+      const newItem = new Todo(item)
+      classTodos.push(newItem)
+      
+    }
+    renderList()
+  })
+
 
 function renderList() {
   checkList.innerHTML = ''
