@@ -55,7 +55,7 @@ router.delete('/list-items', (req, res) => {
 });
 
 router.delete('/list-items/:id', (req, res) =>{
-    const id = req.params.id;
+    const id = parseFloat(req.params.id);
     let deleteTodo = todos.find(todo => todo.id === id)
     if(deleteTodo === undefined){
       res.status(404).json({error:"List Item Doesn't Exist"})

@@ -52,12 +52,12 @@ function renderList() {
     const deleteButton = document.createElement('button')
     deleteButton.classList.add('ui', 'negative', 'small', 'basic', 'button', 'icon')
     deleteButton.innerHTML = '<i class="trash alternate outline icon" />'
-    deleteButton.addEventListener('click', function(event) {
+    deleteButton.addEventListener('click', async function(event) {
       newItem.remove();
-      
-      classTodos = classTodos.filter(x => x.id !== element.id)
 
-      saveList()
+      await axios.delete(`/api/list-items/${element.id}`)
+
+      classTodos = classTodos.filter(x => x.id !== element.id)
     })
 
     const checkButton = document.createElement('button')
