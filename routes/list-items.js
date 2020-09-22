@@ -33,7 +33,7 @@ router.post('/list-items/new', (req, res) => {
 
   const newTodo = {
     text,
-    id: parseInt(id),
+    id: parseFloat(id),
     checked: checked === 'true'
   }
 

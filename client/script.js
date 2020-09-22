@@ -14,7 +14,6 @@ class Todo {
   }
 }
 
-console.log(axios)
 axios.get('/api/list-items')
   .then(function (response) {
     // handle success
@@ -106,19 +105,26 @@ async function clearList(){
 }
 
 
-function inputVal(){
+async function inputVal(){
   if (input.value === "") {
     return
   }
   
   const newItem = new Todo({
     text: input.value,
+    id: Math.random(),
     checked: false
   })
+
+  await axios.post('/api/list-items/new', {
+    text: newItem.text,
+    id: newItem.id,
+    checked: newItem.checked
+  })
+
   classTodos.push(newItem)
   input.value = null;
   renderList()
-  saveList()
 }
 
 addButton.addEventListener('click', inputVal)
