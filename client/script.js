@@ -66,22 +66,11 @@ function renderList() {
     const iconName = element.checked ? 'check square outline' : 'square outline'
 
     checkButton.innerHTML = `<i class="${iconName} icon" />`
-    checkButton.addEventListener('click', function(event) {
-      element.checked = !element.checked;
-      console.log(element)
+    checkButton.addEventListener('click', async function(event) {
       
-      newItem.remove();
-      
-      classTodos = classTodos.filter(x => x.id !== element.id)
-      
-      if (element.checked) {
-        classTodos.push(element)
-      } else {
-        classTodos.unshift(element)
-      }
-
+      let response = await axios.post(`/api/list-items/update/${element.id}`)
+      classTodos = response.data
       renderList()
-      saveList()      
     })
     
     buttonContainer.appendChild(checkButton)

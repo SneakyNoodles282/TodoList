@@ -7,12 +7,12 @@ let todos = [
       "checked": false
     },
     {
-      "text": "hi",
+      "text": "hii",
       "id": 2.3786333765439,
       "checked": false
     },
     {
-      "text": "hi",
+      "text": "hiii",
       "id": 2.3786333,
       "checked": false
     }
@@ -68,17 +68,20 @@ router.delete('/list-items/:id', (req, res) =>{
 })
 
 router.post('/list-items/update/:id', (req,res) =>{
-    const id = req.params.id;
+    const id = parseFloat(req.params.id);
     let updatedTodo = todos.find(todo => todo.id === id)
     todos = todos.filter(todo => todo.id !== id)
     if(updatedTodo === undefined){
       res.status(404).json({error:"List Item Doesn't Exist"})
       return
     } 
+    updatedTodo.checked = !updatedTodo.checked;
 
-    updatedTodo.checked = true
-    console.log(updatedTodo)
-    todos.push(updatedTodo)
+    if (updatedTodo.checked) {
+      todos.push(updatedTodo)
+    } else {
+      todos.unshift(updatedTodo)
+    }
     res.json(todos)
 })
 
