@@ -4,21 +4,13 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const listItemRouter = require("./routes/list-items")
+const { connectdb } = require("./lib/db")
+
 const client = new MongoClient(process.env.MONGO_DB_URI);
 
 
 async function connectClient() {
-    try {
-        await client.connect();
-
-        const database = client.db('todoList');
-        const collection = database.collection('TodoEntry');
-
-    } catch(e) {
-        await client.close();
-        console.log(e)
-    }
-
+    await connectdb()
     app.use(express.static('client'))
     app.use(express.json()) // for parsing application/json
     app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
