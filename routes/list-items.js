@@ -2,35 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { getDB } = require("../lib/db")
 
-
-let todos = [
-    {
-      "text": "hi",
-      "id": 2.378,
-      "checked": false
-    },
-    {
-      "text": "hii",
-      "id": 2.3786333765439,
-      "checked": false
-    },
-    {
-      "text": "hiii",
-      "id": 2.3786333,
-      "checked": false
-    }
-
-  ];
-
-  // let todos = db
-
 router.get('/list-items', async (req, res) => {
     const db = getDB()
     const docs = await db.find({}).toArray()
     res.json(docs)
 
 });
-
 
 router.post('/list-items/new', async (req, res) => {
   const db = getDB()
@@ -75,22 +52,23 @@ router.delete('/list-items/:id', async (req, res) =>{
     res.json(docs)
 })
 
-router.post('/list-items/update/:id', (req,res) =>{
+router.post('/list-items/update/:id', async (req,res) =>{
     const id = parseFloat(req.params.id);
-    let updatedTodo = todos.find(todo => todo.id === id)
-    todos = todos.filter(todo => todo.id !== id)
-    if(updatedTodo === undefined){
+    const db = getDB()
+    const filter = { id }
+    const updatedTodo = await db.findOne(filter)
+    if(!updatedTodo){
       res.status(404).json({error:"List Item Doesn't Exist"})
       return
     } 
-    updatedTodo.checked = !updatedTodo.checked;
-
-    if (updatedTodo.checked) {
-      todos.push(updatedTodo)
-    } else {
-      todos.unshift(updatedTodo)
+    const updatedDoc = {
+      $set: {
+        checked: !updatedTodo.checked
+      }
     }
-    res.json(todos)
+    const result = await db.updateOne(filter, updatedDoc)
+    const docs = await db.find({}).toArray()
+    res.json(docs)
 })
 
 module.exports = router
