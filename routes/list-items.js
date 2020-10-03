@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const { getDB } = require("../lib/db")
+
+
 let todos = [
     {
       "text": "hi",
@@ -19,13 +22,18 @@ let todos = [
 
   ];
 
+  // let todos = db
 
-router.get('/list-items', (req, res) => {
-    res.json(todos)
+router.get('/list-items', async (req, res) => {
+    const db = getDB()
+    const docs = await db.find({}).toArray()
+    res.json(docs)
+
 });
 
 
-router.post('/list-items/new', (req, res) => {
+router.post('/list-items/new', async (req, res) => {
+  const db = getDB()
   const text = req.body.text
   const id = req.body.id
   const checked = req.body.checked
@@ -45,7 +53,7 @@ router.post('/list-items/new', (req, res) => {
     res.status(400).json({error:"Invalid ID"})
     return
   }
-  todos.push(newTodo)
+  await db.insertOne(newTodo)
   res.json(newTodo)
 });
 
