@@ -63,17 +63,16 @@ router.delete('/list-items', async (req, res) => {
     res.json({})
 });
 
-router.delete('/list-items/:id', (req, res) =>{
+router.delete('/list-items/:id', async (req, res) =>{
     const id = parseFloat(req.params.id);
-    let deleteTodo = todos.find(todo => todo.id === id)
-    if(deleteTodo === undefined){
+    const db = getDB()
+    const result = await db.deleteOne({ id });
+    if(result.deletedCount === 0){
       res.status(404).json({error:"List Item Doesn't Exist"})
       return
     }
-    todos = todos.filter(todo => todo.id !== id)
-    res.json(todos)
-    
-
+    const docs = await db.find({}).toArray()
+    res.json(docs)
 })
 
 router.post('/list-items/update/:id', (req,res) =>{
