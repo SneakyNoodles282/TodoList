@@ -57,9 +57,10 @@ router.post('/list-items/new', async (req, res) => {
   res.json(newTodo)
 });
 
-router.delete('/list-items', (req, res) => {
-    todos = []
-    res.json(todos)
+router.delete('/list-items', async (req, res) => {
+    const db = getDB()
+    await db.deleteMany({})
+    res.json({})
 });
 
 router.delete('/list-items/:id', (req, res) =>{
