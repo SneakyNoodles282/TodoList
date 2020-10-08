@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { getDB } = require("../lib/db")
+const { getTodos } = require("../lib/db")
 
 router.get('/list-items', async (req, res) => {
-    const db = getDB()
+    const db = getTodos()
     const docs = await db.find({}).toArray()
     res.json(docs)
 
 });
 
 router.post('/list-items/new', async (req, res) => {
-  const db = getDB()
+  const db = getTodos()
   const text = req.body.text
   const id = req.body.id
   const checked = req.body.checked
@@ -35,14 +35,14 @@ router.post('/list-items/new', async (req, res) => {
 });
 
 router.delete('/list-items', async (req, res) => {
-    const db = getDB()
+    const db = getTodos()
     await db.deleteMany({})
     res.json({})
 });
 
 router.delete('/list-items/:id', async (req, res) =>{
     const id = parseFloat(req.params.id);
-    const db = getDB()
+    const db = getTodos()
     const result = await db.deleteOne({ id });
     if(result.deletedCount === 0){
       res.status(404).json({error:"List Item Doesn't Exist"})
@@ -54,7 +54,7 @@ router.delete('/list-items/:id', async (req, res) =>{
 
 router.post('/list-items/update/:id', async (req,res) =>{
     const id = parseFloat(req.params.id);
-    const db = getDB()
+    const db = getTodos()
     const filter = { id }
     const updatedTodo = await db.findOne(filter)
     if(!updatedTodo){
