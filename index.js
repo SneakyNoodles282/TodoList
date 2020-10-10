@@ -1,14 +1,13 @@
 require('dotenv').config();
-const { MongoClient } = require("mongodb");
 const express = require('express');
 const app = express();
 const path = require('path');
 const passport = require('passport')
 const listItemRouter = require("./routes/list-items")
-const { connectdb } = require("./lib/db")
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const { connectdb, client } = require("./lib/db")
 const { setupAuth } = require("./middleware/passport")
-
-const client = new MongoClient(process.env.MONGO_DB_URI);
 
 // https://stackoverflow.com/questions/16781294/passport-js-passport-initialize-middleware-not-in-use
 async function connectClient() {
@@ -17,6 +16,10 @@ async function connectClient() {
     app.use(express.static('client'))
     app.use(express.json()) // for parsing application/json
     app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+    app.use(session({
+        secret: 'foo',
+        store: new MongoStore({client})
+    }));
     app.use(passport.initialize());
     app.use('/auth', setupAuth())
     app.use('/api', listItemRouter)
