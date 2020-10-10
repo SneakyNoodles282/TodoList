@@ -20,11 +20,24 @@ function setupAuth() {
             });
         }
     ));
+    //turns user object into string id
+    passport.serializeUser((user, done) => {
+        done(undefined, user._id);
+    });
+    //turns string into object id
+    passport.deserializeUser((_id, done) => {
+        User.findOne({ _id })
+            .then(user => {
+                done(null, user);
+            })
+            .catch(err => {
+                return done(err);
+            });
+    });
 
     router.post('/login',
         passport.authenticate('local', {successRedirect: '/Buildthis',
-                                        failureRedirect: '/Buildthis',
-                                        failureFlash: 'Invalid username or password.'})
+                                        failureRedirect: '/Buildthis2'})
     );
 
     router.post('/signup', async (req, res) => {
@@ -48,6 +61,7 @@ function setupAuth() {
         
         res.status(200).json({message: "Big Boi Successful"})
     })
+
 
     return router
 }
