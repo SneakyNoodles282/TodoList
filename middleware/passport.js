@@ -2,6 +2,7 @@ const passport = require('passport')
 const express = require('express');
 const LocalStrategy = require('passport-local').Strategy;
 const { getUsers } = require("../lib/db")
+const ObjectID = require('mongodb').ObjectID
 
 function setupAuth() {
     const router = express.Router();
@@ -26,7 +27,7 @@ function setupAuth() {
     });
     //turns string into object id
     passport.deserializeUser((_id, done) => {
-        User.findOne({ _id })
+        User.findOne({ _id : ObjectID(_id) })
             .then(user => {
                 done(null, user);
             })

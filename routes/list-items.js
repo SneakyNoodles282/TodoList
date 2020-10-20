@@ -4,7 +4,6 @@ const { getTodos } = require("../lib/db")
 
 router.get('/list-items', async (req, res) => {
     const db = getTodos()
-    console.log(req.user)
     const docs = await db.find({}).toArray()
     res.json(docs)
 

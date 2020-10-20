@@ -21,6 +21,7 @@ async function connectClient() {
         store: new MongoStore({client})
     }));
     app.use(passport.initialize());
+    app.use(passport.session());
     app.use('/auth', setupAuth())
     app.use('/api', listItemRouter)
     app.get('/', (req, res) => {
