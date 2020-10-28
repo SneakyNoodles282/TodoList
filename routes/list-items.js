@@ -4,7 +4,7 @@ const { getTodos } = require("../lib/db")
 
 router.get('/list-items', async (req, res) => {
     const db = getTodos()
-    const docs = await db.find({}).toArray()
+    const docs = await db.find({ userID: req.user._id }).toArray()
     res.json(docs)
 
 });
@@ -19,7 +19,8 @@ router.post('/list-items/new', async (req, res) => {
   const newTodo = {
     text,
     id: parseFloat(id),
-    checked: checked === 'true'
+    checked: checked === 'true',
+    userID: req.user._id
   }
 
   if(!newTodo.text){

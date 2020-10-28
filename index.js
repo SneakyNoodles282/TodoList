@@ -25,6 +25,7 @@ async function connectClient() {
     app.use('/auth', setupAuth())
     app.use('/api', listItemRouter)
     app.get('/', (req, res) => {
+        console.log(req.user)
         res.sendFile(path.join(__dirname + '/client/todolist.html'));
     });
     app.get('/login', (req, res) => {
