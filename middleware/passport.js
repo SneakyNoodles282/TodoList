@@ -36,9 +36,22 @@ function setupAuth() {
             });
     });
 
+    router.get('/current-user', function(req,res){
+        if(!req.user){
+            res.json({error: "error not logged in"})
+        } else{
+            res.json({ user: req.user.username })
+        }
+    })
+    
+    router.get('/logout', function(req,res){
+        req.logout()
+        res.redirect('/login')
+    })
+
     router.post('/login',
-        passport.authenticate('local', {successRedirect: '/Buildthis',
-                                        failureRedirect: '/Buildthis2'})
+        passport.authenticate('local', {successRedirect: '/auth/current-user',
+                                        failureRedirect: '/auth/current-user'})
     );
 
     router.post('/signup', async (req, res) => {
