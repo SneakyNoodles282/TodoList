@@ -28,7 +28,14 @@ async function connectClient() {
         res.sendFile(path.join(__dirname + '/client/todolist.html'));
     });
     app.get('/login', (req, res) => {
-        res.sendFile(path.join(__dirname + '/client/login/index.html'));
+        if(req.user){
+            res.redirect('/')
+            return
+        }
+        res.sendFile(path.join(__dirname + '/client/login/page.html'));
+    });
+    app.get('/signup', (req, res) => {
+        res.sendFile(path.join(__dirname + '/client/signup/page.html'));
     });
     app.listen(8000, () => console.log('Server Online'));
 }
