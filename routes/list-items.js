@@ -6,7 +6,6 @@ router.get('/list-items', async (req, res) => {
     const db = getTodos()
     const docs = await db.find({ userID: req.user._id }).toArray()
     res.json(docs)
-
 });
 
 router.post('/list-items/new', async (req, res) => {
@@ -37,26 +36,26 @@ router.post('/list-items/new', async (req, res) => {
 
 router.delete('/list-items', async (req, res) => {
     const db = getTodos()
-    await db.deleteMany({})
+    await db.deleteMany({ userID : req.user._id })
     res.json({})
 });
 
 router.delete('/list-items/:id', async (req, res) =>{
     const id = parseFloat(req.params.id);
     const db = getTodos()
-    const result = await db.deleteOne({ id });
+    const result = await db.deleteOne({ id, userID : req.user._id });
     if(result.deletedCount === 0){
       res.status(404).json({error:"List Item Doesn't Exist"})
       return
     }
-    const docs = await db.find({}).toArray()
+    const docs = await db.find({ userID : req.user._id }).toArray()
     res.json(docs)
 })
 
 router.post('/list-items/update/:id', async (req,res) =>{
     const id = parseFloat(req.params.id);
     const db = getTodos()
-    const filter = { id }
+    const filter = { id, userID: req.user._id  }
     const updatedTodo = await db.findOne(filter)
     if(!updatedTodo){
       res.status(404).json({error:"List Item Doesn't Exist"})
@@ -68,7 +67,7 @@ router.post('/list-items/update/:id', async (req,res) =>{
       }
     }
     const result = await db.updateOne(filter, updatedDoc)
-    const docs = await db.find({}).toArray()
+    const docs = await db.find({ userID : req.user._id }).toArray()
     res.json(docs)
 })
 
