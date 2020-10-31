@@ -8,6 +8,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const { connectdb, client } = require("./lib/db")
 const { setupAuth } = require("./middleware/passport")
+const { isLogged } = require("./middleware/auth")
 
 // https://stackoverflow.com/questions/16781294/passport-js-passport-initialize-middleware-not-in-use
 async function connectClient() {
@@ -23,8 +24,12 @@ async function connectClient() {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use('/auth', setupAuth())
-    app.use('/api', listItemRouter)
+    app.use('/api', isLogged, listItemRouter)
     app.get('/', (req, res) => {
+        if (!req.user){
+            res.redirect('/login')
+            return
+        }
         res.sendFile(path.join(__dirname + '/client/todolist.html'));
     });
     app.get('/login', (req, res) => {
