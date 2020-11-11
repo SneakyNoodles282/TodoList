@@ -5,6 +5,7 @@ const path = require('path');
 const passport = require('passport')
 const listItemRouter = require("./routes/list-items")
 const session = require('express-session');
+var hbs = require('express-hbs');
 const MongoStore = require('connect-mongo')(session);
 const { connectdb, client } = require("./lib/db")
 const { setupAuth } = require("./middleware/passport")
@@ -14,6 +15,11 @@ const { isLogged } = require("./middleware/auth")
 async function connectClient() {
     await connectdb()
     console.log("connected to Mongo")
+    app.set('view engine', 'hbs');
+    app.set('views', __dirname + '/client');
+    app.engine('hbs', hbs.express4({
+        partialsDir: __dirname + '/client/partials'
+    }));
     app.use(express.static('client'))
     app.use(express.json()) // for parsing application/json
     app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
@@ -30,17 +36,17 @@ async function connectClient() {
             res.redirect('/login')
             return
         }
-        res.sendFile(path.join(__dirname + '/client/todolist.html'));
+        res.render('todolist')
     });
     app.get('/login', (req, res) => {
         if(req.user){
             res.redirect('/')
             return
         }
-        res.sendFile(path.join(__dirname + '/client/login/page.html'));
+        res.render('login/page')
     });
     app.get('/signup', (req, res) => {
-        res.sendFile(path.join(__dirname + '/client/signup/page.html'));
+        res.render('signup/page')
     });
     app.listen(8000, () => console.log('Server Online'));
 }
