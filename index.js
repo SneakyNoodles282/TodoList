@@ -4,6 +4,7 @@ const app = express();
 const path = require('path');
 const passport = require('passport')
 const listItemRouter = require("./routes/list-items")
+const listsRouter = require("./routes/lists")
 const session = require('express-session');
 var hbs = require('express-hbs');
 const MongoStore = require('connect-mongo')(session);
@@ -31,6 +32,7 @@ async function connectClient() {
     app.use(passport.session());
     app.use('/auth', setupAuth())
     app.use('/api', isLogged, listItemRouter)
+    app.use('/api', isLogged, listsRouter)
     app.get('/', (req, res) => {
         if (!req.user){
             res.redirect('/login')
@@ -52,6 +54,14 @@ async function connectClient() {
         }
         res.render('signup/page', { isLoggedIn: !!req.user })
     });
+    app.get('/list/:name', (req,res) => {
+        if (!req.user){
+            res.redirect('/login')
+            return
+        }
+        res.render('todolist/page', { isLoggedIn: !!req.user, listName : req.params.name })
+
+    })
     app.listen(8000, () => console.log('Server Online'));
 }
 
