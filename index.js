@@ -36,17 +36,21 @@ async function connectClient() {
             res.redirect('/login')
             return
         }
-        res.render('todolist')
+        res.render('todolist/page', { isLoggedIn: !!req.user })
     });
     app.get('/login', (req, res) => {
         if(req.user){
             res.redirect('/')
             return
         }
-        res.render('login/page')
+        res.render('login/page', { isLoggedIn: !!req.user })
     });
     app.get('/signup', (req, res) => {
-        res.render('signup/page')
+        if(req.user){
+            res.redirect('/')
+            return
+        }
+        res.render('signup/page', { isLoggedIn: !!req.user })
     });
     app.listen(8000, () => console.log('Server Online'));
 }

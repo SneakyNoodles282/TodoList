@@ -1,0 +1,18 @@
+<div class="ui secondary  menu">
+    {{#unless isLoggedIn}}
+        <a href="/login" class="item">
+            Login
+        </a>
+        <a href="/signup" class="item">
+            Signup
+        </a>
+    {{/unless}}
+    {{#if isLoggedIn}}
+        <div class="right menu">
+            <a href="/auth/logout" class="ui item">
+            Logout
+            </a>
+        </div>
+    {{/if}}
+</div>
+
