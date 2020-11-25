@@ -6,7 +6,7 @@ const ObjectID = require('mongodb').ObjectID
 router.post('/list/new', async (req, res) => {
     const db = getTodos()
     const newList = {
-        name: req.body.name,
+        name: req.body.listName,
         userID: req.user._id,
         items: []
     }

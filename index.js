@@ -38,7 +38,7 @@ async function connectClient() {
             res.redirect('/login')
             return
         }
-        res.render('todolist/page', { isLoggedIn: !!req.user })
+        res.render('lists/page', { isLoggedIn: !!req.user })
     });
     app.get('/login', (req, res) => {
         if(req.user){

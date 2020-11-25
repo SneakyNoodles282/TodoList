@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <link href="/lists/style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    {{> header }}
+
+    <div class="ui input">
+      <input class="ui input focus" placeholder="Name Your List" id="inputVal"/>
+      <button class="ui primary button" id="addButton">Create</button>
+    </div>
+
+    <div id="all-lists" class="ui massive list">
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+    <script src="/lists/script.js"></script>
+  </body>
+</html>
