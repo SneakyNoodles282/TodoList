@@ -24,6 +24,7 @@ axios.get('/api/list-items')
     }
     for (const item of transfer) {
       const newItem = new Todo(item)
+      console.log(item)
       classTodos.push(newItem)
       
     }
