@@ -6,6 +6,7 @@ const clear = document.querySelector("#clear")
 let transfer = []
 let classTodos = []
 
+console.log(LIST_NAME)
 class Todo {
   constructor(obj) {
     this.id = obj.id || Math.random(),
